@@ -1,4 +1,4 @@
-package com.codecool.videoservice.entity;
+package com.codecool.recommendationservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,21 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
-
-public class Video {
+public class Recommendation {
     @Id
     @GeneratedValue
-    private Long id;
-    @NotEmpty
-    private String name;
-    @NotEmpty
-    private String url;
+    private Long Id;
+    private Integer rating;
+    private String comment;
+    private Long videoId;
+
 }
