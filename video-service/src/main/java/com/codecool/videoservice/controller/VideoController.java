@@ -1,7 +1,11 @@
 package com.codecool.videoservice.controller;
 
 import com.codecool.videoservice.entity.Video;
+import com.codecool.videoservice.modell.Recommendation;
+import com.codecool.videoservice.modell.VideoWithRecommendation;
 import com.codecool.videoservice.repository.VideoRepository;
+import com.codecool.videoservice.service.RecommendationServiceCaller;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +23,23 @@ import java.util.List;
 public class VideoController {
     @Autowired
     private Environment env;
-
+    @Autowired
+    private RecommendationServiceCaller recommendationServiceCaller;
     @Autowired
     private VideoRepository videoRepository;
 
     @GetMapping("/{id}")
-    public Video getVideoById(@PathVariable("id") Long id) {
-        return videoRepository.getVideoById(id);
+    public VideoWithRecommendation getVideoWithRecommendationsById(@PathVariable("id") Long id) {
+        List<Recommendation> recommendations = recommendationServiceCaller.getRecommendationForVideo(id);
+        System.out.println(recommendations.toString());
+        Video video= videoRepository.getVideoById(id);
+        log.info(video.toString());
+        VideoWithRecommendation videoWithRecommendation = VideoWithRecommendation.builder()
+                .video(video)
+                .recommendations(recommendations)
+                .build();
+        return videoWithRecommendation;
+
     }
     @GetMapping("/all")
     public List<Video> getAllVideos() {
