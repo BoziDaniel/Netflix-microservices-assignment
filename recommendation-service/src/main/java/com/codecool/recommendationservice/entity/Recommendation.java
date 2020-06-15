@@ -21,5 +21,9 @@ public class Recommendation {
     private Integer rating;
     private String comment;
     private Long videoId;
-
+    public Recommendation(Integer rating, String comment, Long videoId) {
+        this.rating = rating;
+        this.comment = comment;
+        this.videoId = videoId;
+    }
 }

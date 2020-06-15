@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 public class Recommendation {
-    private Long Id;
     private Integer rating;
     private String comment;
     private Long videoId;
+
+
 }

@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class VideoController {
     public VideoWithRecommendation getVideoWithRecommendationsById(@PathVariable("id") Long id) {
         List<Recommendation> recommendations = recommendationServiceCaller.getRecommendationForVideo(id);
         System.out.println(recommendations.toString());
-        Video video= videoRepository.getVideoById(id);
+        Video video = videoRepository.getVideoById(id);
         log.info(video.toString());
         VideoWithRecommendation videoWithRecommendation = VideoWithRecommendation.builder()
                 .video(video)
@@ -41,9 +38,16 @@ public class VideoController {
         return videoWithRecommendation;
 
     }
+
     @GetMapping("/all")
     public List<Video> getAllVideos() {
         System.out.println(videoRepository.findAll());
         return videoRepository.findAll();
+    }
+
+    @PostMapping("/{id}")
+    public void postRecommendation(@PathVariable("id") Long id, @RequestBody Recommendation recommendation) {
+        log.info(String.format("post recommendation with data: %s", recommendation));
+        recommendationServiceCaller.addRecommendation(id, recommendation);
     }
 }

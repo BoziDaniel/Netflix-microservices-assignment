@@ -26,8 +26,8 @@ public class RecommendationController {
         return recommendationRepository.getRecommendationsByVideoId(videoId);
     }
 
-    @PostMapping("/{id}/add")
-    public void addNewRecommendation(@PathVariable("id") Long id, Recommendation recommendation) {
+    @PostMapping("/{id}")
+    public void addNewRecommendation( Long id,@RequestBody Recommendation recommendation) {
         recommendationRepository.save(recommendation);
     }
 }
